@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Button from './Button';
 
 const Modal = ({
   isOpen,
@@ -45,17 +44,17 @@ const Modal = ({
         onClick={onClose}
       />
       
-      {/* Modal */}
+      {/* Modal - FanForge theme */}
       <div className="flex min-h-full items-center justify-center p-4">
         <div
-          className={`relative w-full ${sizeClasses[size]} rounded-2xl bg-white dark:bg-gray-800 shadow-2xl transform transition-all ${className}`}
+          className={`relative w-full ${sizeClasses[size]} rounded-2xl bg-white border border-[#E5E5E7] shadow-2xl transform transition-all ${className}`}
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
           {(title || showCloseButton) && (
             <div className="flex items-center justify-between p-6 pb-0">
               {title && (
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                <h3 className="text-xl font-semibold text-[#1D1D1F]">
                   {title}
                 </h3>
               )}
@@ -63,7 +62,9 @@ const Modal = ({
               {showCloseButton && (
                 <button
                   onClick={onClose}
-                  className="ml-auto inline-flex items-center rounded-lg p-1.5 text-sm text-gray-400 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-700 dark:hover:text-white"
+                  type="button"
+                  aria-label="Close"
+                  className="ml-auto inline-flex items-center rounded-lg p-1.5 text-sm text-[#6E6E73] hover:bg-[#F5F5F7] hover:text-[#1D1D1F] transition-colors"
                 >
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -74,13 +75,13 @@ const Modal = ({
           )}
           
           {/* Body */}
-          <div className="p-6">
+          <div className="p-6 text-[#1D1D1F]">
             {children}
           </div>
           
           {/* Footer */}
           {footer && (
-            <div className="flex items-center justify-end gap-3 p-6 pt-0">
+            <div className="flex items-center justify-end gap-3 p-6 pt-0 border-t border-[#E5E5E7]">
               {footer}
             </div>
           )}
