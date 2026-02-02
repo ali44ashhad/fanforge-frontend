@@ -30,6 +30,8 @@ function readStored() {
   }
 }
 
+// Backend sends token/user in JSON body only (no Set-Cookie). We store them in cookies
+// and localStorage ourselves so they persist and can be sent on API requests.
 function writeStored({ token, user }) {
   try {
     if (token) {

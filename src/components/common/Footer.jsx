@@ -206,7 +206,7 @@ const Footer = () => {
               
               <div className="min-w-0"> 
                 <p className="mt-1 text-sm text-[#6E6E73] leading-relaxed">
-                  FanForge is an early prototype for a future, larger creator-first platform. Features and branding may evolve over time, and the marketplace may eventually be integrated, rebranded, or retired as part of the next phase. All users will be notified well in advance of any major changes.
+                FanForge is an early prototype. A future migration to a more advanced platform with a flat 10% fee is planned to support infrastructure and operations. This will remain significantly cheaper and more creator‑friendly than most marketplaces. Or whether is best to put disclaimer
                 </p>
               </div>
             </div>
