@@ -206,13 +206,12 @@ const Footer = () => {
               
               <div className="min-w-0"> 
                 <p className="mt-1 text-sm text-[#6E6E73] leading-relaxed">
-                FanForge is an early prototype. A future migration to a more advanced platform with a flat 10% fee is planned to support infrastructure and operations. This will remain significantly cheaper and more creator‑friendly than most marketplaces. Or whether is best to put disclaimer
+                  FanForge is an early prototype. A future migration to a more advanced platform with a flat 10% fee is planned to support infrastructure and operations. This will remain significantly cheaper and more creator‑friendly than most marketplaces. Or whether is best to put disclaimer
                 </p>
               </div>
             </div>
           </div>
         </div>
-
         <div className="border-t border-[#E5E5E7] mt-8 pt-6 flex  items-center justify-between gap-4 text-center">
   <p className="text-[#6E6E73] text-sm">
     © {currentYear} FanForge Marketplace. All rights reserved.

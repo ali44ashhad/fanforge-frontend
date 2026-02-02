@@ -172,8 +172,8 @@ export default function Marketplace() {
       </div>
 
       <div className="flex flex-col lg:flex-row gap-6">
-        {/* Sidebar Filters */}
-        <aside className="lg:w-64 flex-shrink-0">
+        {/* Sidebar Filters - sticky so always visible when scrolling */}
+        <aside className="lg:w-64 flex-shrink-0 lg:sticky lg:top-20 lg:self-start">
           <ProductFilters
             categories={categories}
             filters={filters}
@@ -195,7 +195,7 @@ export default function Marketplace() {
             loading={isLoading}
             error={error}
             onAddToCart={handleAddToCart}
-            columns={4}
+            columns={3}
           />
         </div>
       </div>

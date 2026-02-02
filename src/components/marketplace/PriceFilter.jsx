@@ -292,9 +292,9 @@ const PriceFilter = ({
         ></div>
       </div>
 
-      {/* Input Fields */}
-      <div className="flex items-center justify-between gap-3">
-        <div className="flex-1">
+      {/* Input Fields - min width so at least 4 digits visible */}
+      <div className="flex items-center gap-3 flex-wrap">
+        <div className="flex-1 min-w-[5rem]">
           <label className="block text-xs text-[#6E6E73] mb-1">Min</label>
           <div className="relative">
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#6E6E73]">$</span>
@@ -304,12 +304,12 @@ const PriceFilter = ({
               max={max - step}
               value={localValue[0]}
               onChange={handleMinChange}
-              className="w-full pl-8 pr-3 py-2 border border-[#E5E5E7] rounded-lg bg-white text-[#1D1D1F] focus:outline-none focus:border-[#007AFF] focus:ring-2 focus:ring-[#007AFF] focus:ring-offset-0 transition-colors"
+              className="w-full min-w-[6ch] pl-8 py-2 border border-[#E5E5E7] rounded-lg bg-white text-[#1D1D1F] focus:outline-none focus:border-[#007AFF] focus:ring-2 focus:ring-[#007AFF] focus:ring-offset-0 transition-colors"
             />
           </div>
         </div>
-        <div className="text-[#6E6E73] mt-5">to</div>
-        <div className="flex-1">
+        <div className="text-[#6E6E73] mt-5 shrink-0">to</div>
+        <div className="flex-1 min-w-[5rem]">
           <label className="block text-xs text-[#6E6E73] mb-1">Max</label>
           <div className="relative">
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#6E6E73]">$</span>
@@ -319,14 +319,14 @@ const PriceFilter = ({
               max={max}
               value={localValue[1]}
               onChange={handleMaxChange}
-              className="w-full pl-8 pr-3 py-2 border border-[#E5E5E7] rounded-lg bg-white text-[#1D1D1F] focus:outline-none focus:border-[#007AFF] focus:ring-2 focus:ring-[#007AFF] focus:ring-offset-0 transition-colors"
+              className="w-full min-w-[6ch] pl-8  py-2 border border-[#E5E5E7] rounded-lg bg-white text-[#1D1D1F] focus:outline-none focus:border-[#007AFF] focus:ring-2 focus:ring-[#007AFF] focus:ring-offset-0 transition-colors"
             />
           </div>
         </div>
       </div>
 
-      {/* Preset Price Ranges */}
-      <div className="grid grid-cols-2 gap-2">
+      {/* Preset Price Ranges - all 4 always visible */}
+      <div className="grid grid-cols-2 gap-2 min-w-0">
         {[
           { label: 'Under $25', value: [0, 25] },
           { label: '$25 - $50', value: [25, 50] },
@@ -335,11 +335,12 @@ const PriceFilter = ({
         ].map((preset) => (
           <button
             key={preset.label}
+            type="button"
             onClick={() => {
               setLocalValue(preset.value);
               onPriceChange(preset.value);
             }}
-            className={`text-xs py-2 px-3 rounded-lg border transition-colors focus:outline-none focus:ring-2 focus:ring-[#007AFF] ${
+            className={`text-xs py-2 px-3 rounded-lg border transition-colors focus:outline-none focus:ring-2 focus:ring-[#007AFF] min-w-0 overflow-hidden text-ellipsis ${
               localValue[0] === preset.value[0] && localValue[1] === preset.value[1]
                 ? 'bg-[#007AFF] text-white border-[#007AFF]'
                 : 'text-[#6E6E73] border-[#E5E5E7] hover:bg-[#F5F5F7] hover:text-[#1D1D1F]'

@@ -1,1 +1,12 @@
 @import "tailwindcss";
+
+/* Hide browser's native search clear (X) so only our custom clear shows - avoids 2 overlapping X */
+.ff-search-bar-input::-webkit-search-cancel-button,
+.ff-search-bar-input::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+.ff-search-bar-input::-moz-search-cancel-button,
+.ff-search-bar-input::-moz-search-decoration {
+  display: none;
+}

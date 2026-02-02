@@ -35,6 +35,7 @@ import AdminProductPreview from './pages/dashboard/admin/ProductPreview.jsx'
 import AdminCategories from './pages/dashboard/admin/Categories.jsx'
 import Analytics from './pages/dashboard/admin/Analytics.jsx'
 import Sellers from './pages/dashboard/admin/Sellers.jsx'
+import Admins from './pages/dashboard/admin/Admins.jsx'
 import Sell from './pages/Sell.jsx'
 import SellerStore from './pages/SellerStore.jsx'
 
@@ -303,6 +304,14 @@ function App() {
                   element={
                     <AdminLayout>
                       <Users />
+                    </AdminLayout>
+                  }
+                />
+                <Route
+                  path="/dashboard/admin/admins"
+                  element={
+                    <AdminLayout>
+                      <Admins />
                     </AdminLayout>
                   }
                 />

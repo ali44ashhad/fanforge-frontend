@@ -286,7 +286,14 @@ const ProductCard = ({ product, onAddToCart, showActions = true }) => {
 
       {/* Product Info */}
       <div className="p-4 space-y-3">
-        {/* Seller Info */}
+        {/* Product Name - seller se upar */}
+        <Link to={`/product/${id}`}>
+          <h3 className="font-semibold text-[#1D1D1F] mb-2 line-clamp-2 hover:text-[#007AFF] transition-colors">
+            {title || product?.name || 'Product'}
+          </h3>
+        </Link>
+
+        {/* Seller / Provider Info */}
         <div className="flex items-center mb-2">
           <div className="w-6 h-6 rounded-full bg-[#F5F5F7] overflow-hidden mr-2">
             {seller?.avatar ? (
@@ -304,11 +311,7 @@ const ProductCard = ({ product, onAddToCart, showActions = true }) => {
             {sellerName}
           </Link>
         </div>
-        {product.description && (
-          <p className="text-sm text-[#6E6E73] line-clamp-2">
-            {product.description}
-          </p>
-        )}
+      
 
         {/* Price & Stock */}
         <div className="flex items-center justify-between gap-4">

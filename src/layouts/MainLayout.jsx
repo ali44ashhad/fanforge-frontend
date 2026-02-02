@@ -62,6 +62,7 @@ import React, { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import Navbar from '../components/common/Navbar'
 import Footer from '../components/common/Footer'
+import BackToTop from '../components/common/BackToTop'
 import { useAuth } from '../hooks/useAuth'
 import { useCart } from '../hooks/useCart'
 import { useNotifications } from '../context/NotificationContext'
@@ -114,6 +115,7 @@ export default function MainLayout({ children }) {
       />
       <main className="flex-1">{children}</main>
       <Footer />
+      <BackToTop />
     </div>
   )
 }

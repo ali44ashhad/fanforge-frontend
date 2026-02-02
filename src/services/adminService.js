@@ -2,7 +2,7 @@ import { api } from './api'
 
 export const adminService = {
   // Users
-  listUsers: () => api.get('/api/admin/users'),
+  listUsers: (params) => api.get('/api/admin/users', params ? { query: params } : undefined),
   getUser: (id) => api.get(`/api/admin/users/${id}`),
   banUser: (id) => api.del(`/api/admin/users/${id}/ban`),
   unbanUser: (id) => api.put(`/api/admin/users/${id}/unban`, {}),
