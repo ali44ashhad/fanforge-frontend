@@ -203,13 +203,8 @@ const Footer = () => {
         <div className="mt-10">
           <div className="rounded-2xl bg-[#F5F5F7] border border-[#E5E5E7] p-5 sm:p-6">
             <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-xl bg-white border border-[#E5E5E7] flex items-center justify-center flex-shrink-0">
-                <svg className="w-5 h-5 text-[#007AFF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <div className="min-w-0">
-                <p className="text-sm font-semibold text-[#1D1D1F]">Prototype notice</p>
+              
+              <div className="min-w-0"> 
                 <p className="mt-1 text-sm text-[#6E6E73] leading-relaxed">
                   FanForge is an early prototype for a future, larger creator-first platform. Features and branding may evolve over time, and the marketplace may eventually be integrated, rebranded, or retired as part of the next phase. All users will be notified well in advance of any major changes.
                 </p>
