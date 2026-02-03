@@ -54,19 +54,30 @@ import Terms from './pages/legal/Terms.jsx'
 import Privacy from './pages/legal/Privacy.jsx'
 import Returns from './pages/legal/Returns.jsx'
 
-import { AuthProvider } from './context/AuthContext.jsx'
-import { CartProvider } from './context/CartContext.jsx' 
+import { AuthProvider, useAuthContext } from './context/AuthContext.jsx'
+import { CartProvider } from './context/CartContext.jsx'
 import { NotificationProvider } from './context/NotificationContext.jsx'
+import { ROLES } from './utils/constants.js'
+import Loader from './components/common/Loader.jsx'
+
+function DashboardRedirect() {
+  const { role, user, isLoading } = useAuthContext()
+  const r = (role || user?.role) ? String(role || user?.role).toUpperCase() : ''
+  if (isLoading) return <Loader fullScreen text="Loading..." />
+  if (r === ROLES.ADMIN || r === ROLES.SUPER_ADMIN) return <Navigate to="/dashboard/admin" replace />
+  if (r === ROLES.SELLER) return <Navigate to="/dashboard/seller" replace />
+  return <Navigate to="/dashboard/buyer" replace />
+}
 
 function App() {
-  return ( 
+  return (
       <AuthProvider>
         <CartProvider>
           <NotificationProvider>
             <BrowserRouter>
               <Routes>
-                {/* Public main site */}
-                <Route path="/dashboard" element={<Navigate to="/dashboard/buyer" replace />} />
+                {/* /dashboard → role ke hisaab se admin / seller / buyer dashboard */}
+                <Route path="/dashboard" element={<DashboardRedirect />} />
                 <Route
                   path="/"
                   element={

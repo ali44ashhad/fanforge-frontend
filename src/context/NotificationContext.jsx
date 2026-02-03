@@ -28,12 +28,12 @@ export function NotificationProvider({ children }) {
   return (
     <NotificationContext.Provider value={value}>
       {children}
-      <div className="fixed top-4 right-4 z-[1000] space-y-2">
+      <div className="fixed bottom-6 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-sm z-[1000] space-y-2">
         {toasts.map((t) => (
           <div
             key={t.id}
             className={[
-              'max-w-sm rounded-lg border px-4 py-3 shadow bg-white text-gray-900',
+              'w-full min-w-0 rounded-lg border px-4 py-3 shadow-lg bg-white text-gray-900',
               t.type === 'success' && 'border-green-200',
               t.type === 'error' && 'border-red-200',
               t.type === 'warning' && 'border-yellow-200',
@@ -43,11 +43,11 @@ export function NotificationProvider({ children }) {
               .join(' ')}
             role="status"
           >
-            <div className="flex items-start justify-between gap-3">
-              <div className="text-sm">{t.message}</div>
+            <div className="flex items-start justify-between gap-3 min-w-0">
+              <p className="text-sm break-words min-w-0 flex-1">{t.message}</p>
               <button
                 onClick={() => remove(t.id)}
-                className="text-gray-500 hover:text-gray-900"
+                className="flex-shrink-0 p-1 text-[#6E6E73] hover:text-[#1D1D1F] rounded"
                 aria-label="Dismiss"
               >
                 ×

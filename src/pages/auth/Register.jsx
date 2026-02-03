@@ -113,7 +113,7 @@ import Input from '../../components/common/Input'
 
 export default function Register() {
   const navigate = useNavigate()
-  const { register, isLoading } = useAuth()
+  const { register, login, isLoading } = useAuth()
   const { notify } = useNotifications()
   const [formData, setFormData] = useState({
     email: '',
@@ -123,14 +123,46 @@ export default function Register() {
     address: '',
   })
   const [error, setError] = useState(null)
+  const [formErrors, setFormErrors] = useState({})
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError(null)
+    setFormErrors({})
+
+    // Frontend validation — backend rules (no backend change)
+    const errors = {}
+    if (!formData.fullName?.trim() || formData.fullName.trim().length < 2) {
+      errors.fullName = 'Full name is required'
+    }
+    if (!formData.email?.trim()) errors.email = 'Invalid email address'
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) errors.email = 'Invalid email address'
+    if (!formData.password || formData.password.length < 6) {
+      errors.password = 'Password must be at least 6 characters'
+    }
+    if (!formData.phoneNumber?.trim() || formData.phoneNumber.trim().length < 10) {
+      errors.phoneNumber = 'Valid phone number is required'
+    }
+    if (!formData.address?.trim() || formData.address.trim().length < 5) {
+      errors.address = 'Address is required'
+    }
+    if (Object.keys(errors).length) {
+      setFormErrors(errors)
+      notify('Please fix the errors below', { type: 'error' })
+      return
+    }
+
     try {
-      await register(formData)
+      await register({
+        ...formData,
+        fullName: formData.fullName.trim(),
+        phoneNumber: formData.phoneNumber.trim(),
+        address: formData.address.trim(),
+      })
+      // Auto-login after signup — no need to sign in again
+      await login({ email: formData.email.trim(), password: formData.password })
       notify('Account created successfully!', { type: 'success' })
-      navigate('/')
+      navigate('/dashboard/buyer/profile')
     } catch (err) {
       const message = err?.message || 'Registration failed. Please try again.'
       setError(message)
@@ -158,6 +190,7 @@ export default function Register() {
           autoComplete="name"
           value={formData.fullName}
           onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+          error={formErrors.fullName}
           disabled={isLoading}
         />
         <Input
@@ -167,6 +200,7 @@ export default function Register() {
           autoComplete="email"
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          error={formErrors.email}
           disabled={isLoading}
         />
         <Input
@@ -176,19 +210,26 @@ export default function Register() {
           autoComplete="new-password"
           value={formData.password}
           onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+          error={formErrors.password}
           disabled={isLoading}
         />
         <Input
           label="Phone Number"
           type="tel"
+          required
+          placeholder="At least 10 digits"
           value={formData.phoneNumber}
           onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
+          error={formErrors.phoneNumber}
           disabled={isLoading}
         />
         <Input
           label="Address"
+          required
+          placeholder="At least 5 characters"
           value={formData.address}
           onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+          error={formErrors.address}
           disabled={isLoading}
         />
 

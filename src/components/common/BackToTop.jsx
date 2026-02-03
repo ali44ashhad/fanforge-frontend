@@ -1,10 +1,17 @@
 import { useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import { ChevronUp } from '../../shims/lucide-react'
 
 const SCROLL_THRESHOLD = 300
 
 export default function BackToTop() {
+  const location = useLocation()
   const [visible, setVisible] = useState(false)
+
+  // Har nayi page pe top se open ho — route change par scroll top
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [location.pathname])
 
   useEffect(() => {
     const handleScroll = () => setVisible(window.scrollY > SCROLL_THRESHOLD)

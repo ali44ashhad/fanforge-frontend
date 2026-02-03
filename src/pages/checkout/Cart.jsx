@@ -141,7 +141,7 @@
 // }
 
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, Navigate } from 'react-router-dom'
 import { useCart } from '../../hooks/useCart'
 import { useAuth } from '../../hooks/useAuth'
 import { useNotifications } from '../../context/NotificationContext'
@@ -150,9 +150,11 @@ import EmptyState from '../../components/common/EmptyState'
 
 export default function Cart() {
   const { items, removeItem, setQuantity, subtotal, count } = useCart()
-  const { isAuthed } = useAuth()
+  const { isAuthed, isSeller, isAdmin } = useAuth()
   const { notify } = useNotifications()
   const navigate = useNavigate()
+
+  if (isSeller || isAdmin) return <Navigate to="/marketplace" replace />
 
   const handleCheckout = () => {
     if (!isAuthed) {
@@ -169,8 +171,8 @@ export default function Cart() {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-[#F5F5F7] py-8">
-        <div className="max-w-7xl mx-auto px-4">
+      <div className="min-h-screen bg-[#F5F5F7] py-6 sm:py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <EmptyState
             title="Your cart is empty"
             description="Add some products to your cart to get started"
@@ -183,104 +185,111 @@ export default function Cart() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F5F7] py-8">
-      <div className="max-w-7xl mx-auto px-4">
-      <h1 className="text-3xl font-bold text-[#1D1D1F] mb-6">Shopping Cart</h1>
+    <div className="min-h-screen bg-[#F5F5F7] py-4 sm:py-6 lg:py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <h1 className="text-2xl sm:text-3xl font-bold text-[#1D1D1F] mb-4 sm:mb-6">Shopping Cart</h1>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Cart Items */}
-        <div className="lg:col-span-2 space-y-4">
-          {items.map((item) => (
-            <div
-              key={item.id}
-              className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 flex gap-4"
-            >
-              <Link to={`/product/${item.id}`} className="flex-shrink-0">
-                <img
-                  src={item.image || '/placeholder-product.jpg'}
-                  alt={item.name}
-                  className="w-24 h-24 object-cover rounded-lg"
-                />
-              </Link>
-              <div className="flex-1">
-                <Link to={`/product/${item.id}`}>
-                  <h3 className="font-semibold text-[#1D1D1F] hover:text-[#007AFF] transition-colors">
-                    {item.name}
-                  </h3>
-                </Link>
-                <p className="text-lg font-bold text-gray-900 mt-2">
-                  ${item.price.toFixed(2)}
-                </p>
-                <div className="flex items-center gap-4 mt-4">
-                  <div className="flex items-center border border-[#E5E5E7] rounded-lg">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+          {/* Cart Items */}
+          <div className="lg:col-span-2 space-y-3 sm:space-y-4 order-2 lg:order-1">
+            {items.map((item) => (
+              <div
+                key={item.id}
+                className="bg-white rounded-xl sm:rounded-2xl shadow border border-[#E5E5E7] p-4 sm:p-6 flex flex-col sm:flex-row sm:gap-4 gap-3"
+              >
+                <div className="flex gap-3 sm:gap-4 flex-1 min-w-0">
+                  <Link to={`/product/${item.id}`} className="flex-shrink-0">
+                    <img
+                      src={item.image || '/placeholder-product.jpg'}
+                      alt={item.name}
+                      className="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-lg"
+                    />
+                  </Link>
+                  <div className="flex-1 min-w-0">
+                    <Link to={`/product/${item.id}`}>
+                      <h3 className="font-semibold text-[#1D1D1F] hover:text-[#007AFF] transition-colors text-sm sm:text-base line-clamp-2">
+                        {item.name}
+                      </h3>
+                    </Link>
+                    <p className="text-base sm:text-lg font-bold text-[#1D1D1F] mt-1">
+                      ${Number(item.price).toFixed(2)}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between sm:justify-end gap-3 border-t border-[#E5E5E7] pt-3 sm:border-0 sm:pt-0 sm:flex-col sm:items-end">
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center border border-[#E5E5E7] rounded-lg">
+                      <button
+                        type="button"
+                        onClick={() => setQuantity(item.id, item.quantity - 1)}
+                        className="p-2 sm:px-3 sm:py-1 text-[#6E6E73] hover:text-[#1D1D1F] transition-colors focus:outline-none focus:ring-2 focus:ring-[#007AFF] focus:ring-inset rounded-l-lg min-w-[44px]"
+                        aria-label="Decrease quantity"
+                      >
+                        −
+                      </button>
+                      <span className="px-3 sm:px-4 py-1 text-[#1D1D1F] min-w-[2rem] text-center">{item.quantity}</span>
+                      <button
+                        type="button"
+                        onClick={() => setQuantity(item.id, item.quantity + 1)}
+                        className="p-2 sm:px-3 sm:py-1 text-[#6E6E73] hover:text-[#1D1D1F] transition-colors focus:outline-none focus:ring-2 focus:ring-[#007AFF] focus:ring-inset rounded-r-lg min-w-[44px]"
+                        aria-label="Increase quantity"
+                      >
+                        +
+                      </button>
+                    </div>
                     <button
-                      onClick={() => setQuantity(item.id, item.quantity - 1)}
-                      className="px-3 py-1 text-[#6E6E73] hover:text-[#1D1D1F] transition-colors focus:outline-none focus:ring-2 focus:ring-[#007AFF] focus:ring-inset rounded-l-lg"
+                      type="button"
+                      onClick={() => {
+                        removeItem(item.id)
+                        notify('Removed from cart', { type: 'success' })
+                      }}
+                      className="text-[#FF3B30] hover:text-[#D70015] text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 rounded px-1 py-2"
                     >
-                      −
-                    </button>
-                    <span className="px-4 py-1 text-[#1D1D1F]">{item.quantity}</span>
-                    <button
-                      onClick={() => setQuantity(item.id, item.quantity + 1)}
-                      className="px-3 py-1 text-[#6E6E73] hover:text-[#1D1D1F] transition-colors focus:outline-none focus:ring-2 focus:ring-[#007AFF] focus:ring-inset rounded-r-lg"
-                    >
-                      +
+                      Remove
                     </button>
                   </div>
-                  <button
-                    onClick={() => {
-                      removeItem(item.id)
-                      notify('Removed from cart', { type: 'success' })
-                    }}
-                    className="text-red-600 hover:text-red-700 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 rounded"
-                  >
-                    Remove
-                  </button>
+                  <p className="text-lg sm:text-xl font-bold text-[#1D1D1F]">
+                    ${(Number(item.price) * Number(item.quantity)).toFixed(2)}
+                  </p>
                 </div>
               </div>
-              <div className="text-right">
-                <p className="text-xl font-bold text-[#1D1D1F]">
-                  ${(item.price * item.quantity).toFixed(2)}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
 
-        {/* Order Summary */}
-        <div className="lg:col-span-1">
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 sticky top-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">
-              Order Summary
-            </h2>
-            <div className="space-y-3 mb-6">
-              <div className="flex justify-between text-gray-600">
-                <span>Subtotal ({count} items)</span>
-                <span>${subtotal.toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between text-[#6E6E73]">
-                <span>Platform Fee</span>
-                <span className="text-green-600 font-medium">FREE</span>
-              </div>
-              <div className="border-t border-[#E5E5E7] pt-3">
-                <div className="flex justify-between text-lg font-bold text-[#1D1D1F]">
-                  <span>Total</span>
-                  <span>${subtotal.toFixed(2)}</span>
+          {/* Order Summary - show first on mobile so it's above cart list */}
+          <div className="lg:col-span-1 order-1 lg:order-2">
+            <div className="bg-white rounded-xl sm:rounded-2xl shadow border border-[#E5E5E7] p-4 sm:p-6 sticky top-20 sm:top-24 lg:top-8">
+              <h2 className="text-lg sm:text-xl font-bold text-[#1D1D1F] mb-4">
+                Order Summary
+              </h2>
+              <div className="space-y-3 mb-6">
+                <div className="flex justify-between text-sm sm:text-base text-[#6E6E73]">
+                  <span>Subtotal ({count} items)</span>
+                  <span className="font-medium text-[#1D1D1F]">${Number(subtotal).toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between text-sm sm:text-base text-[#6E6E73]">
+                  <span>Platform Fee</span>
+                  <span className="text-green-600 font-medium">FREE</span>
+                </div>
+                <div className="border-t border-[#E5E5E7] pt-3">
+                  <div className="flex justify-between text-base sm:text-lg font-bold text-[#1D1D1F]">
+                    <span>Total</span>
+                    <span>${Number(subtotal).toFixed(2)}</span>
+                  </div>
                 </div>
               </div>
+              <Button onClick={handleCheckout} fullWidth size="large" className="!py-3">
+                Proceed to Checkout
+              </Button>
+              <Link
+                to="/marketplace"
+                className="block text-center text-[#007AFF] hover:text-[#0056CC] mt-4 text-sm transition-colors py-2"
+              >
+                Continue Shopping
+              </Link>
             </div>
-            <Button onClick={handleCheckout} fullWidth size="large">
-              Proceed to Checkout
-            </Button>
-            <Link
-              to="/marketplace"
-              className="block text-center text-[#007AFF] hover:text-[#0056CC] mt-4 text-sm transition-colors"
-            >
-              Continue Shopping
-            </Link>
           </div>
         </div>
-      </div>
       </div>
     </div>
   )

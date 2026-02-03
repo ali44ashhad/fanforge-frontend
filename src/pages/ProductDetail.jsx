@@ -284,18 +284,16 @@ export default function ProductDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F5F7] py-8">
-      <div className="max-w-7xl mx-auto px-4">
-         
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <div className="min-h-screen bg-[#F5F5F7] py-4 sm:py-6 lg:py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
           {/* Left Column - Gallery + Product Details */}
-          <div className="lg:col-span-7 space-y-8">
+          <div className="lg:col-span-7 space-y-6 lg:space-y-8">
             <ProductGallery images={normalizedProduct.images} productName={normalizedProduct.title} />
             {/* Product Details - below product, left side */}
             {normalizedProduct.description && (
-              <div className="bg-white rounded-2xl shadow-sm p-8 border border-[#E5E5E7]">
-                <h2 className="text-2xl font-bold text-[#1D1D1F] mb-6">Product Details</h2>
+              <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6 lg:p-8 border border-[#E5E5E7]">
+                <h2 className="text-xl sm:text-2xl font-bold text-[#1D1D1F] mb-4 sm:mb-6">Product Details</h2>
                 <div className="prose max-w-none text-[#6E6E73]">
                   <p className="whitespace-pre-line leading-relaxed">{normalizedProduct.description}</p>
                 </div>
@@ -305,15 +303,15 @@ export default function ProductDetail() {
 
           {/* Right Column - Info & Actions */}
           <div className="lg:col-span-5">
-            <div className="sticky top-8 space-y-6">
-              <div className="bg-white rounded-2xl shadow-sm p-6 border border-[#E5E5E7]">
+            <div className="sticky top-20 sm:top-24 lg:top-8 space-y-4 sm:space-y-6">
+              <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6 border border-[#E5E5E7]">
                 <ProductInfo 
                   product={normalizedProduct} 
                   onQuantityChange={setQuantity} 
                 />
               </div>
               
-              <div className="bg-white rounded-2xl shadow-sm p-6 border border-[#E5E5E7]">
+              <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6 border border-[#E5E5E7]">
                 <ProductActions
                   product={normalizedProduct}
                   onAddToCart={handleAddToCart}
@@ -325,6 +323,7 @@ export default function ProductDetail() {
                 <SellerInfo 
                   seller={normalizedProduct.seller} 
                   badge={normalizedProduct.badge} 
+                  className="rounded-xl sm:rounded-2xl p-4 sm:p-6"
                 />
               )}
             </div>

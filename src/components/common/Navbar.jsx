@@ -224,8 +224,13 @@ const Navbar = ({
   const navLinks = [
     { label: 'Home', path: '/' },
     { label: 'Marketplace', path: '/marketplace' },
-    { label: 'Categories', path: '/categories' }, 
+    { label: 'Categories', path: '/categories' },
   ];
+  const roleUpper = user ? String(user.role || '').toUpperCase() : '';
+  const isSeller = roleUpper === 'SELLER';
+  const isAdmin = roleUpper === 'ADMIN' || roleUpper === 'SUPER_ADMIN';
+  const showCart = !isSeller && !isAdmin;
+  const dashboardPath = isAdmin ? '/dashboard/admin' : isSeller ? '/dashboard/seller' : '/dashboard/buyer';
 
   return (
     <nav className="sticky top-0 z-40 bg-white border-b border-[#E5E5E7] w-full">
@@ -258,17 +263,19 @@ const Navbar = ({
 
           {/* Right Side Actions */}
           <div className="flex items-center gap-2 sm:gap-4">
-            {/* Cart */}
-            <Link to="/cart" className="relative p-1.5 sm:p-2 hover:bg-[#F5F5F7] rounded-lg transition-colors">
-              <svg className="w-5 h-5 sm:w-6 sm:h-6 text-[#6E6E73]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
-              {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-[#FF3B30] text-white text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center text-xs">
-                  {cartCount}
-                </span>
-              )}
-            </Link>
+            {/* Cart — sellers ko cart nahi dikhata */}
+            {showCart && (
+              <Link to="/cart" className="relative p-1.5 sm:p-2 hover:bg-[#F5F5F7] rounded-lg transition-colors">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6 text-[#6E6E73]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-[#FF3B30] text-white text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center text-xs">
+                    {cartCount}
+                  </span>
+                )}
+              </Link>
+            )}
 
             {/* User Menu - profile icon: desktop/tablet only; on mobile all tabs are in sidebar */}
             {user ? (
@@ -305,13 +312,13 @@ const Navbar = ({
                     />
                     <div className="absolute right-0 mt-2 w-40 sm:w-48 bg-white rounded-lg shadow-lg py-2 z-40 border border-[#E5E5E7]">
                       <Link
-                        to={user.role === 'admin' ? '/dashboard/admin' : user.role === 'seller' ? '/dashboard/seller' : '/dashboard/buyer'}
+                        to={dashboardPath}
                         className="block px-3 sm:px-4 py-2 text-sm text-[#1D1D1F] hover:bg-[#F5F5F7] transition-colors"
                         onClick={() => setIsUserMenuOpen(false)}
                       >
                         Dashboard
                       </Link>
-                      {user.role === 'seller' && (
+                      {/* {isSeller && (
                         <button
                           onClick={() => {
                             onToggleSellerMode?.();
@@ -321,7 +328,7 @@ const Navbar = ({
                         >
                           {isSellerMode ? 'Switch to Buyer' : 'Switch to Seller'}
                         </button>
-                      )}
+                      )} */}
                       <div className="border-t border-[#E5E5E7] my-2" />
                       <button
                         onClick={() => {
@@ -383,11 +390,11 @@ const Navbar = ({
                 {link.label}
               </Link>
             ))}
-            {user && (
+            {user ? (
               <>
                 <div className="border-t border-[#E5E5E7] pt-2 mt-2" />
                 <Link
-                  to={user.role === 'admin' ? '/dashboard/admin' : user.role === 'seller' ? '/dashboard/seller' : '/dashboard/buyer'}
+                  to={dashboardPath}
                   className="block py-2 text-[#1D1D1F] hover:text-[#007AFF] transition-colors"
                   onClick={() => setIsMobileNavOpen(false)}
                 >
@@ -402,6 +409,30 @@ const Navbar = ({
                 >
                   Sign Out
                 </button>
+              </>
+            ) : (
+              <>
+                <div className="border-t border-[#E5E5E7] pt-4 mt-2" />
+                <div className="flex flex-col gap-3">
+                  <Button
+                    variant="outline"
+                    fullWidth
+                    onClick={() => {
+                      onLogin?.();
+                      setIsMobileNavOpen(false);
+                    }}
+                    className="!py-3 !rounded-xl border-2"
+                  >
+                    Sign In
+                  </Button>
+                  <Link
+                    to="/register"
+                    onClick={() => setIsMobileNavOpen(false)}
+                    className="block w-full rounded-xl py-3 px-4 text-center font-medium bg-[#007AFF] text-white hover:bg-[#0056CC] transition-colors focus:outline-none focus:ring-2 focus:ring-[#007AFF] focus:ring-offset-2"
+                  >
+                    Sign Up
+                  </Link>
+                </div>
               </>
             )}
           </div>

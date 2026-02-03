@@ -1,8 +1,11 @@
-import React, { createContext, useCallback, useContext, useMemo } from 'react'
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef } from 'react'
 import { STORAGE_KEYS } from '../utils/constants'
 import { useLocalStorage } from '../hooks/useLocalStorage'
+import { useAuthContext } from './AuthContext'
 
 const CartContext = createContext(null)
+
+const CART_USER_PREFIX = 'cart_user_'
 
 function normalizeItem(item) {
   if (!item) return null
@@ -28,6 +31,46 @@ function normalizeItem(item) {
 
 export function CartProvider({ children }) {
   const [items, setItems] = useLocalStorage(STORAGE_KEYS.cart, [])
+  const { user } = useAuthContext()
+  const hadUserRef = useRef(!!user)
+  const lastUserIdRef = useRef(null)
+
+  // Logout: user ka cart save karke clear — naya user purana cart na dekhe
+  // Login: is user ka saved cart restore karo
+  useEffect(() => {
+    const hasUser = !!user
+    const userId = user?.id || user?._id
+    if (hasUser) lastUserIdRef.current = userId
+
+    if (hadUserRef.current && !hasUser) {
+      // Logout — current cart isi user ka hai, save karke clear karo
+      const prevUserId = lastUserIdRef.current
+      if (prevUserId && items.length > 0) {
+        try {
+          localStorage.setItem(
+            `${CART_USER_PREFIX}${prevUserId}`,
+            JSON.stringify(items)
+          )
+        } catch (_) {}
+      }
+      setItems([])
+    } else if (!hadUserRef.current && hasUser && userId) {
+      // Login — abhi login hua, is user ka saved cart restore karo
+      try {
+        const key = `${CART_USER_PREFIX}${userId}`
+        const saved = localStorage.getItem(key)
+        if (saved) {
+          const parsed = JSON.parse(saved)
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setItems(parsed)
+            localStorage.removeItem(key)
+          }
+        }
+      } catch (_) {}
+    }
+
+    hadUserRef.current = hasUser
+  }, [user, setItems])
 
   const addItem = useCallback(
     (product, qty = 1) => {

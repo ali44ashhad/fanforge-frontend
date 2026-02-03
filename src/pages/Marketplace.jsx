@@ -162,16 +162,16 @@ export default function Marketplace() {
   })
 
   return (
-    <div className="min-h-screen bg-[#F5F5F7] py-8">
-      <div className="max-w-7xl mx-auto px-4">
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold text-[#1D1D1F] mb-2">Marketplace</h1>
-        <p className="text-[#6E6E73]">
+    <div className="min-h-screen bg-[#F5F5F7] py-4 sm:py-6 lg:py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <div className="mb-4 sm:mb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold text-[#1D1D1F] mb-2">Marketplace</h1>
+        <p className="text-sm sm:text-base text-[#6E6E73]">
           Discover unique products from independent sellers
         </p>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-6">
+      <div className="flex flex-col lg:flex-row gap-4 sm:gap-6">
         {/* Sidebar Filters - sticky so always visible when scrolling */}
         <aside className="lg:w-64 flex-shrink-0 lg:sticky lg:top-20 lg:self-start">
           <ProductFilters
@@ -182,8 +182,8 @@ export default function Marketplace() {
         </aside>
 
         {/* Main Content */}
-        <div className="flex-1">
-          <div className="flex items-center justify-between mb-6">
+        <div className="flex-1 min-w-0">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4 sm:mb-6">
             <div className="text-sm text-[#6E6E73]">
               {isLoading ? <Loader /> : `${sortedProducts.length} products found`}
             </div>

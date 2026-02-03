@@ -142,9 +142,9 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-white border-t border-[#E5E5E7] pt-12 pb-8">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+    <footer className="bg-white border-t border-[#E5E5E7] pt-8 sm:pt-12 pb-6 sm:pb-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 sm:gap-8">
           {/* Brand */}
           <div className="lg:col-span-2">
             <div className="flex items-center mb-4">
@@ -181,7 +181,7 @@ const Footer = () => {
           {/* Links */}
           {Object.entries(footerLinks).map(([section, links]) => (
             <div key={section}>
-              <h3 className="font-semibold text-lg mb-4 text-[#1D1D1F]">{section}</h3>
+              <h3 className="font-semibold text-base sm:text-lg mb-3 sm:mb-4 text-[#1D1D1F]">{section}</h3>
               <ul className="space-y-2">
                 {links.map((link) => (
                   <li key={link.path}>
@@ -212,12 +212,12 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="border-t border-[#E5E5E7] mt-8 pt-6 flex  items-center justify-between gap-4 text-center">
-  <p className="text-[#6E6E73] text-sm">
+        <div className="border-t border-[#E5E5E7] mt-6 sm:mt-8 pt-4 sm:pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-center sm:text-left">
+  <p className="text-[#6E6E73] text-xs sm:text-sm">
     © {currentYear} FanForge Marketplace. All rights reserved.
   </p>
 
-  <p className="text-[#6E6E73] text-sm">
+  <p className="text-[#6E6E73] text-xs sm:text-sm">
     Designed and developed by{" "}
     <a
       href="https://fnamarketingsolutions.com"

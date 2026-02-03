@@ -151,7 +151,7 @@
 // export default Checkout
 
 import React, { useState } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation, Navigate } from 'react-router-dom'
 import { useCart } from '../../hooks/useCart'
 import { useAuth } from '../../hooks/useAuth'
 import { orderService } from '../../services/orderService'
@@ -164,7 +164,7 @@ function Checkout() {
   const navigate = useNavigate()
   const location = useLocation()
   const { items, subtotal, clear } = useCart()
-  const { user } = useAuth()
+  const { user, isSeller, isAdmin } = useAuth()
   const { notify } = useNotifications()
   const [formData, setFormData] = useState({
     buyerAddress: user?.address || '',
@@ -196,6 +196,7 @@ function Checkout() {
     return '/placeholder-product.jpg'
   }
 
+  if (isSeller || isAdmin) return <Navigate to="/marketplace" replace />
   if (checkoutItems.length === 0) {
     navigate('/cart')
     return null
@@ -226,15 +227,15 @@ function Checkout() {
 
   return (
     <RequireAuth>
-      <div className="min-h-screen bg-[#F5F5F7] py-8">
-        <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-3xl font-bold text-[#1D1D1F] mb-2">Checkout</h1>
-          <p className="text-[#6E6E73] mb-8">Enter shipping details and review your order.</p>
+      <div className="min-h-screen bg-[#F5F5F7] py-4 sm:py-6 lg:py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <h1 className="text-2xl sm:text-3xl font-bold text-[#1D1D1F] mb-2">Checkout</h1>
+          <p className="text-sm sm:text-base text-[#6E6E73] mb-6 sm:mb-8">Enter shipping details and review your order.</p>
 
-          <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
             {/* Shipping Information */}
-            <div className="lg:col-span-2 space-y-6">
-              <section className="bg-white rounded-2xl shadow-sm border border-[#E5E5E7] p-6 sm:p-8">
+            <div className="lg:col-span-2 space-y-4 sm:space-y-6 order-2 lg:order-1">
+              <section className="bg-white rounded-xl sm:rounded-2xl shadow-sm border border-[#E5E5E7] p-4 sm:p-6 lg:p-8">
                 <h2 className="text-xl font-semibold text-[#1D1D1F] mb-1">
                   Shipping Information
                 </h2>
@@ -286,15 +287,15 @@ function Checkout() {
             </div>
 
             {/* Order Summary */}
-            <div className="lg:col-span-1">
-              <div className="bg-white rounded-2xl shadow-sm border border-[#E5E5E7] p-6 sticky top-8">
+            <div className="lg:col-span-1 order-1 lg:order-2">
+              <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm border border-[#E5E5E7] p-4 sm:p-6 sticky top-20 sm:top-24 lg:top-8">
                 <h2 className="text-xl font-semibold text-[#1D1D1F] mb-4">
                   Order Summary
                 </h2>
-                <ul className="space-y-4 mb-6">
+                <ul className="space-y-3 sm:space-y-4 mb-6">
                   {checkoutItems.map((item) => (
-                    <li key={item.id || item._id} className="flex gap-4">
-                      <div className="flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden bg-[#F5F5F7] border border-[#E5E5E7]">
+                    <li key={item.id || item._id} className="flex gap-3 sm:gap-4">
+                      <div className="flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg sm:rounded-xl overflow-hidden bg-[#F5F5F7] border border-[#E5E5E7]">
                         <img
                           src={getItemImage(item)}
                           alt={item.name || item.title || 'Product'}

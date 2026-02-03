@@ -71,7 +71,7 @@ export default function ProductFilters({ categories = [], filters = {}, onFilter
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-[#E5E5E7] p-6 space-y-6 min-w-0 overflow-visible">
+    <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm border border-[#E5E5E7] p-4 sm:p-6 space-y-4 sm:space-y-6 min-w-0 overflow-visible">
       <CategoryFilter
         categories={categories}
         selectedCategories={filters.categoryId ? [filters.categoryId] : []}
