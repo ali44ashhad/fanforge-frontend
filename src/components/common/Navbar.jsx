@@ -243,8 +243,8 @@ const Navbar = ({
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-6 xl:space-x-8">
+          {/* Desktop Navigation - logo se thoda door */}
+          <div className="hidden lg:flex items-center space-x-6 xl:space-x-8 ml-8 xl:ml-12">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
@@ -256,8 +256,8 @@ const Navbar = ({
             ))}
           </div>
 
-          {/* Search Bar - Responsive */}
-          <div className="hidden md:flex flex-1 max-w-xs lg:max-w-xl mx-3 lg:mx-6">
+          {/* Search Bar - chota */}
+          <div className="hidden md:flex flex-1 max-w-[160px] lg:max-w-[200px] xl:max-w-[240px] mx-3 lg:mx-4">
             <SearchBar onSearch={onSearch} placeholder="Search..." />
           </div>
 
