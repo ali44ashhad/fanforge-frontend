@@ -132,6 +132,15 @@ export default function Login() {
 
   return (
     <div>
+      <Link
+        to="/"
+        className="inline-flex items-center gap-1.5 text-sm text-[#6E6E73] hover:text-[#007AFF] transition-colors mb-6"
+      >
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+        </svg>
+        Back to Home
+      </Link>
       <h2 className="text-2xl font-bold text-[#1D1D1F] mb-2">Sign In</h2>
       <p className="text-[#6E6E73] mb-6">
         Welcome back! Sign in to your account.
