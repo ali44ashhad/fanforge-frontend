@@ -148,7 +148,7 @@ const Footer = () => {
           {/* Brand */}
           <div className="lg:col-span-2">
             <div className="flex items-center mb-4">
-              <a href="/"> <img src={logo} alt="FanForge" className="w-full h-10  sm:h-10" /></a>
+              <a href="/"> <img src={logo} alt="FanForge" className="w-32 h-10  sm:h-10" /></a>
             </div>
             <p className="text-[#6E6E73] mb-6 max-w-md">
               A creator-first marketplace where official and fan-made merchandise coexist. 

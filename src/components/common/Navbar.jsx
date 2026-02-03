@@ -239,7 +239,7 @@ const Navbar = ({
           {/* Logo */}
           <div className="flex items-center flex-shrink-0">
             <Link to="/" className="flex items-center gap-1 sm:gap-2">
-              <img src={logo} alt="FanForge" className="w-full h-7 sm:h-8" />
+              <img src={logo} alt="FanForge" className="w-32 h-7 sm:h-8" />
             </Link>
           </div>
 
